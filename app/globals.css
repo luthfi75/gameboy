@@ -53,7 +53,7 @@ html, body {
    GAME BOY BODY — Classic leaf shape, YELLOW
    ======================================== */
 .gb-body {
-  width: min(72vw, 400px);
+  width: min(78vw, 400px);
   background: linear-gradient(160deg, #e8c820, #d8b818, #c8a810, #dcc020);
   border-radius: 14px 14px 14px 55px;
   padding: 14px 14px 62px 14px;
@@ -338,7 +338,7 @@ html, body {
    KEYBOARD GUIDE
    ======================================== */
 .gb-guide {
-  width: min(72vw, 400px);
+  width: min(78vw, 400px);
   margin-top: 12px;
   display: flex;
   flex-direction: column;
