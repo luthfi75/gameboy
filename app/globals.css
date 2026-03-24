@@ -54,10 +54,13 @@ html, body {
    GAME BOY BODY — Classic leaf shape, YELLOW
    ======================================== */
 .gb-body {
-  width: 300px;
+  width: min(92vw, 400px);
+  min-height: min(88vh, 700px);
   background: linear-gradient(160deg, #e8c820, #d8b818, #c8a810, #dcc020);
   border-radius: 14px 14px 14px 55px;
-  padding: 14px 14px 56px 14px;
+  padding: 14px 14px 68px 14px;
+  display: flex;
+  flex-direction: column;
   position: relative;
   box-shadow:
     6px 8px 20px rgba(0,0,0,0.5),
@@ -74,8 +77,11 @@ html, body {
   border-radius: 8px 8px 24px 8px;
   padding: 12px 10px 26px 10px;
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   box-shadow: inset 2px 2px 8px rgba(0,0,0,0.7);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .gb-power-row {
@@ -103,7 +109,8 @@ html, body {
    ======================================== */
 .gb-screen {
   width: 100%;
-  aspect-ratio: 3 / 2;
+  flex: 1;
+  min-height: 0;
   background: #12091d;
   border-radius: 3px;
   overflow: hidden;
@@ -143,12 +150,12 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 0 6px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 /* D-Pad */
 .gb-dpad {
-  width: 82px; height: 82px;
+  width: 90px; height: 90px;
   position: relative;
 }
 
@@ -156,7 +163,7 @@ html, body {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 80px; height: 80px;
+  width: 88px; height: 88px;
   border-radius: 50%;
   background: rgba(0,0,0,0.06);
 }
@@ -165,7 +172,7 @@ html, body {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 74px; height: 24px;
+  width: 82px; height: 26px;
   background: linear-gradient(180deg, #333, #222, #2a2a2a);
   border-radius: 3px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.05);
@@ -175,7 +182,7 @@ html, body {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 24px; height: 74px;
+  width: 26px; height: 82px;
   background: linear-gradient(90deg, #333, #222, #2a2a2a);
   border-radius: 3px;
   box-shadow: 2px 0 4px rgba(0,0,0,0.35), inset 1px 0 1px rgba(255,255,255,0.05);
@@ -185,7 +192,7 @@ html, body {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 22px; height: 22px;
+  width: 24px; height: 24px;
   background: #222;
   border-radius: 50%;
   z-index: 2;
@@ -204,15 +211,15 @@ html, body {
 }
 .gb-dpad-zone:active { background: rgba(255,255,255,0.06); }
 
-.gb-dpad-zone.up { top: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 30px; border-radius: 3px 3px 0 0; }
-.gb-dpad-zone.down { bottom: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 30px; border-radius: 0 0 3px 3px; }
-.gb-dpad-zone.left { left: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 24px; border-radius: 3px 0 0 3px; }
-.gb-dpad-zone.right { right: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 24px; border-radius: 0 3px 3px 0; }
+.gb-dpad-zone.up { top: 0; left: 50%; transform: translateX(-50%); width: 26px; height: 33px; border-radius: 3px 3px 0 0; }
+.gb-dpad-zone.down { bottom: 0; left: 50%; transform: translateX(-50%); width: 26px; height: 33px; border-radius: 0 0 3px 3px; }
+.gb-dpad-zone.left { left: 0; top: 50%; transform: translateY(-50%); width: 33px; height: 26px; border-radius: 3px 0 0 3px; }
+.gb-dpad-zone.right { right: 0; top: 50%; transform: translateY(-50%); width: 33px; height: 26px; border-radius: 0 3px 3px 0; }
 
 /* A/B Buttons — diagonal layout, closer together */
 .gb-ab {
   position: relative;
-  width: 88px; height: 50px;
+  width: 96px; height: 56px;
   transform: rotate(-25deg);
   margin-top: 14px;
 }
@@ -221,7 +228,7 @@ html, body {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 90px; height: 50px;
+  width: 98px; height: 56px;
   border-radius: 25px;
   background: rgba(0,0,0,0.06);
 }
@@ -339,7 +346,7 @@ html, body {
    KEYBOARD GUIDE
    ======================================== */
 .gb-guide {
-  width: 300px;
+  width: min(92vw, 400px);
   margin-top: 12px;
   display: flex;
   flex-direction: column;

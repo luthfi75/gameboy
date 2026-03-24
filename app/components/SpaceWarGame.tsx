@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { ChiptunePlayer } from '../lib/chiptune';
 
 interface SpaceWarGameProps {
   onBack: () => void;
+  chiptune?: ChiptunePlayer | null;
 }
 
 const W = 240;
@@ -309,7 +311,7 @@ function drawPixelHeart(ctx: CanvasRenderingContext2D, x: number, y: number, c1:
 
 // ---------- Main Component ----------
 
-export default function SpaceWarGame({ onBack }: SpaceWarGameProps) {
+export default function SpaceWarGame({ onBack, chiptune }: SpaceWarGameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameState, setGameState] = useState<'ready' | 'playing' | 'waveAnnounce' | 'over'>('ready');
   const [displayScore, setDisplayScore] = useState(0);
@@ -409,8 +411,9 @@ export default function SpaceWarGame({ onBack }: SpaceWarGameProps) {
     powerUpsRef.current = [];
     setDisplayScore(0);
     setDisplayLives(3);
+    chiptune?.playStartSound();
     startWave(1);
-  }, [startWave]);
+  }, [startWave, chiptune]);
 
   // ---------- Main draw & update ----------
   const drawFrame = useCallback(() => {
@@ -683,6 +686,7 @@ export default function SpaceWarGame({ onBack }: SpaceWarGameProps) {
               if (s.lives <= 0) {
                 s.gamePhase = 'over';
                 setGameState('over');
+                chiptune?.playGameOverSound();
                 spawnExplosion(player.x, player.y, '#ff4400', 25);
               }
             }
@@ -710,6 +714,7 @@ export default function SpaceWarGame({ onBack }: SpaceWarGameProps) {
               if (s.lives <= 0) {
                 s.gamePhase = 'over';
                 setGameState('over');
+                chiptune?.playGameOverSound();
                 spawnExplosion(player.x, player.y, '#ff4400', 25);
               }
             }
