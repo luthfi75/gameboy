@@ -745,7 +745,7 @@ export default function SpaceWarGame({ onBack, chiptune }: SpaceWarGameProps) {
       p.life--;
     });
     particlesRef.current = particlesRef.current.filter(p => p.life > 0);
-  }, [spawnExplosion, startWave]);
+  }, [spawnExplosion, startWave, chiptune]);
 
   // Game loop
   useEffect(() => {

@@ -256,7 +256,6 @@ export class ChiptunePlayer {
     const melodyDuration = melodyTime - startTime;
 
     // Schedule bass (triangle wave)
-    let bassTime = startTime;
     const totalBass = bass.reduce((sum, e) => sum + e.duration, 0);
     // Repeat bass to fill melody duration
     let bassElapsed = 0;
