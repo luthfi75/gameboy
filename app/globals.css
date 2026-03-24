@@ -1,0 +1,581 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'W95FA';
+  src: url('/fonts/w95fa.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'W95FA', monospace;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  background: #0a0a14;
+}
+
+/* ========================================
+   BACKGROUND
+   ======================================== */
+.retro-wallpaper {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-image: url('/backgrounds/retro-pixel-bg.svg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  filter: brightness(0.4);
+}
+
+/* ========================================
+   PAGE CONTAINER
+   ======================================== */
+.gba-page {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+/* ========================================
+   GAME BOY BODY — Classic leaf shape, YELLOW
+   ======================================== */
+.gb-body {
+  width: 300px;
+  background: linear-gradient(160deg, #e8c820, #d8b818, #c8a810, #dcc020);
+  border-radius: 14px 14px 14px 55px;
+  padding: 14px 14px 56px 14px;
+  position: relative;
+  box-shadow:
+    6px 8px 20px rgba(0,0,0,0.5),
+    -2px -2px 6px rgba(0,0,0,0.12),
+    inset 1px 1px 3px rgba(255,255,255,0.35),
+    inset -1px -1px 3px rgba(0,0,0,0.12);
+}
+
+/* ========================================
+   SCREEN BEZEL
+   ======================================== */
+.gb-screen-bezel {
+  background: #1a1a28;
+  border-radius: 8px 8px 24px 8px;
+  padding: 12px 10px 26px 10px;
+  position: relative;
+  margin-bottom: 16px;
+  box-shadow: inset 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+.gb-power-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.gb-power-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #88ee44, #44bb22);
+  box-shadow: 0 0 4px #66dd33, 0 0 8px rgba(68,221,68,0.3);
+}
+
+.gb-power-label {
+  font-size: 6px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 2px;
+}
+
+/* ========================================
+   SCREEN
+   ======================================== */
+.gb-screen {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: #12091d;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    inset 2px 2px 6px rgba(0,0,0,0.6),
+    0 0 1px rgba(0,0,0,0.8);
+  pointer-events: none;
+  user-select: none;
+}
+
+.gb-screen::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0px, transparent 1px, transparent 2px);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.gb-screen-label {
+  position: absolute;
+  bottom: 7px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 6px;
+  color: rgba(255,255,255,0.1);
+  letter-spacing: 2px;
+}
+
+/* ========================================
+   CONTROLS
+   ======================================== */
+.gb-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  margin-bottom: 16px;
+}
+
+/* D-Pad */
+.gb-dpad {
+  width: 82px; height: 82px;
+  position: relative;
+}
+
+.gb-dpad-bg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+}
+
+.gb-dpad-h {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 74px; height: 24px;
+  background: linear-gradient(180deg, #333, #222, #2a2a2a);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.05);
+}
+
+.gb-dpad-v {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 24px; height: 74px;
+  background: linear-gradient(90deg, #333, #222, #2a2a2a);
+  border-radius: 3px;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.35), inset 1px 0 1px rgba(255,255,255,0.05);
+}
+
+.gb-dpad-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 22px; height: 22px;
+  background: #222;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* D-pad interactive zones */
+.gb-dpad-zone {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.gb-dpad-zone:active { background: rgba(255,255,255,0.06); }
+
+.gb-dpad-zone.up { top: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 30px; border-radius: 3px 3px 0 0; }
+.gb-dpad-zone.down { bottom: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 30px; border-radius: 0 0 3px 3px; }
+.gb-dpad-zone.left { left: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 24px; border-radius: 3px 0 0 3px; }
+.gb-dpad-zone.right { right: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 24px; border-radius: 0 3px 3px 0; }
+
+/* A/B Buttons — diagonal layout, closer together */
+.gb-ab {
+  position: relative;
+  width: 88px; height: 50px;
+  transform: rotate(-25deg);
+  margin-top: 14px;
+}
+
+.gb-ab-bg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 90px; height: 50px;
+  border-radius: 25px;
+  background: rgba(0,0,0,0.06);
+}
+
+.gb-ab-col { position: absolute; top: 50%; transform: translateY(-50%); }
+.gb-ab-col.b-col { left: 2px; }
+.gb-ab-col.a-col { right: 2px; }
+
+.gb-btn-a {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #cc3355, #aa2244);
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  font-weight: bold;
+  font-family: 'W95FA', monospace;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    2px 3px 8px rgba(0,0,0,0.5),
+    inset 1px 1px 3px rgba(255,255,255,0.2),
+    inset -1px -1px 2px rgba(0,0,0,0.2);
+  transition: transform 0.06s;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.gb-btn-a:active { transform: scale(0.92); }
+
+.gb-btn-b {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #6644aa, #4c3388);
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 11px;
+  font-weight: bold;
+  font-family: 'W95FA', monospace;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    2px 3px 8px rgba(0,0,0,0.5),
+    inset 1px 1px 3px rgba(255,255,255,0.2),
+    inset -1px -1px 2px rgba(0,0,0,0.2);
+  transition: transform 0.06s;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.gb-btn-b:active { transform: scale(0.92); }
+
+/* Select / Start */
+.gb-sys {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.gb-sys-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transform: rotate(-25deg);
+}
+
+.gb-sys-btn {
+  width: 38px; height: 8px;
+  background: linear-gradient(180deg, #5a4818, #3a2c10);
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), 1px 1px 3px rgba(0,0,0,0.25);
+  transition: transform 0.06s;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.gb-sys-btn:active { transform: scale(0.88); }
+
+.gb-sys-label {
+  font-size: 6px;
+  color: rgba(90,64,16,0.55);
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Speaker grille */
+.gb-speaker {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transform: rotate(45deg);
+}
+
+.gb-speaker-line {
+  width: 28px;
+  height: 3px;
+  background: rgba(60,44,10,0.3);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 1px rgba(0,0,0,0.2),
+    0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* ========================================
+   KEYBOARD GUIDE
+   ======================================== */
+.gb-guide {
+  width: 300px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.gb-guide-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gb-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px; height: 18px;
+  padding: 0 4px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 3px;
+  font-size: 8px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'W95FA', monospace;
+}
+
+.gb-key.wide { min-width: 42px; }
+.gb-key.red { background: rgba(204,51,85,0.15); border-color: rgba(204,51,85,0.35); color: #cc3355; }
+.gb-key.purple { background: rgba(102,68,170,0.12); border-color: rgba(102,68,170,0.3); color: #8866cc; }
+
+.gb-key-label { font-size: 7px; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+.gb-key-sep { width: 1px; height: 12px; background: rgba(255,255,255,0.1); }
+
+.gb-footer {
+  margin-top: 8px;
+  font-size: 8px;
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 3px;
+}
+
+/* ========================================
+   GAME SCREENS
+   ======================================== */
+.gb-game-screen {
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #12091d;
+}
+
+.gb-game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 8px;
+  background: rgba(0,0,0,0.35);
+  font-size: 8px;
+  color: rgba(255,255,255,0.45);
+}
+
+.gb-game-back {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #d4a820;
+  font-family: 'W95FA', monospace;
+  font-size: 8px;
+  padding: 0;
+}
+
+.gb-game-body {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.gb-game-over {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(12,6,20,0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 50;
+}
+
+.gb-game-over-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #cc3355;
+  text-shadow: 0 0 12px rgba(204,51,85,0.5);
+  letter-spacing: 2px;
+}
+
+.gb-game-over-score { font-size: 10px; color: rgba(255,255,255,0.5); }
+
+.gb-game-over-btn {
+  margin-top: 6px;
+  padding: 5px 16px;
+  background: linear-gradient(145deg, #cc3355, #aa2244);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-family: 'W95FA', monospace;
+  font-size: 9px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(204,51,85,0.4);
+}
+
+.gb-start-prompt {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 50;
+  background: rgba(12,6,20,0.88);
+}
+
+.gb-start-prompt-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d4a820;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(212,168,32,0.4);
+}
+
+.gb-start-prompt-text {
+  font-size: 9px;
+  color: rgba(255,255,255,0.45);
+  animation: blink-text 1s step-start infinite;
+}
+
+@keyframes blink-text { 50% { opacity: 0; } }
+
+/* ========================================
+   RESPONSIVE — scale up for larger screens
+   ======================================== */
+
+/* Tablet */
+@media (min-width: 600px) and (min-height: 700px) {
+  .gb-body { width: 380px; padding: 18px 18px 70px; }
+  .gb-screen-bezel { padding: 14px 12px 30px; margin-bottom: 20px; }
+  .gb-dpad { width: 96px; height: 96px; }
+  .gb-dpad-bg { width: 94px; height: 94px; }
+  .gb-dpad-h { width: 86px; height: 28px; }
+  .gb-dpad-v { width: 28px; height: 86px; }
+  .gb-dpad-center { width: 26px; height: 26px; }
+  .gb-dpad-zone.up { width: 28px; height: 34px; }
+  .gb-dpad-zone.down { width: 28px; height: 34px; }
+  .gb-dpad-zone.left { width: 34px; height: 28px; }
+  .gb-dpad-zone.right { width: 34px; height: 28px; }
+  .gb-ab { width: 104px; height: 58px; }
+  .gb-ab-bg { width: 106px; height: 58px; }
+  .gb-btn-a { width: 46px; height: 46px; font-size: 15px; }
+  .gb-btn-b { width: 38px; height: 38px; font-size: 13px; }
+  .gb-sys-btn { width: 46px; height: 10px; }
+  .gb-sys-label { font-size: 7px; }
+  .gb-controls { padding: 0 10px; margin-bottom: 20px; }
+  .gb-sys { gap: 30px; margin-bottom: 6px; }
+  .gb-speaker { bottom: 20px; right: 20px; }
+  .gb-speaker-line { width: 26px; height: 3px; }
+  .gb-guide { width: 380px; }
+  .gb-key { min-width: 24px; height: 22px; font-size: 10px; }
+  .gb-key.wide { min-width: 50px; }
+  .gb-key-label { font-size: 9px; }
+}
+
+/* Desktop */
+@media (min-width: 900px) and (min-height: 800px) {
+  .gb-body { width: 440px; padding: 20px 20px 80px; }
+  .gb-screen-bezel { padding: 16px 14px 34px; margin-bottom: 24px; }
+  .gb-power-dot { width: 8px; height: 8px; }
+  .gb-power-label { font-size: 7px; }
+  .gb-screen-label { font-size: 7px; }
+  .gb-dpad { width: 110px; height: 110px; }
+  .gb-dpad-bg { width: 108px; height: 108px; }
+  .gb-dpad-h { width: 100px; height: 32px; }
+  .gb-dpad-v { width: 32px; height: 100px; }
+  .gb-dpad-center { width: 30px; height: 30px; }
+  .gb-dpad-zone.up { width: 32px; height: 40px; }
+  .gb-dpad-zone.down { width: 32px; height: 40px; }
+  .gb-dpad-zone.left { width: 40px; height: 32px; }
+  .gb-dpad-zone.right { width: 40px; height: 32px; }
+  .gb-ab { width: 120px; height: 66px; }
+  .gb-ab-bg { width: 122px; height: 66px; }
+  .gb-btn-a { width: 52px; height: 52px; font-size: 17px; }
+  .gb-btn-b { width: 44px; height: 44px; font-size: 14px; }
+  .gb-sys-btn { width: 52px; height: 11px; }
+  .gb-sys-label { font-size: 8px; letter-spacing: 3px; }
+  .gb-controls { padding: 0 14px; margin-bottom: 24px; }
+  .gb-sys { gap: 36px; margin-bottom: 8px; }
+  .gb-speaker { bottom: 24px; right: 24px; gap: 4px; }
+  .gb-speaker-line { width: 30px; height: 3px; }
+  .gb-guide { width: 440px; }
+  .gb-key { min-width: 28px; height: 24px; font-size: 11px; }
+  .gb-key.wide { min-width: 56px; }
+  .gb-key-label { font-size: 10px; }
+  .gb-key-sep { height: 16px; }
+  .gb-footer { font-size: 9px; }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) and (min-height: 900px) {
+  .gb-body { width: 500px; padding: 24px 24px 90px; border-radius: 18px 18px 18px 65px; }
+  .gb-screen-bezel { padding: 18px 16px 38px; margin-bottom: 28px; border-radius: 10px 10px 28px 10px; }
+  .gb-dpad { width: 120px; height: 120px; }
+  .gb-dpad-bg { width: 118px; height: 118px; }
+  .gb-dpad-h { width: 110px; height: 36px; border-radius: 4px; }
+  .gb-dpad-v { width: 36px; height: 110px; border-radius: 4px; }
+  .gb-dpad-center { width: 34px; height: 34px; }
+  .gb-dpad-zone.up { width: 36px; height: 44px; }
+  .gb-dpad-zone.down { width: 36px; height: 44px; }
+  .gb-dpad-zone.left { width: 44px; height: 36px; }
+  .gb-dpad-zone.right { width: 44px; height: 36px; }
+  .gb-ab { width: 134px; height: 74px; }
+  .gb-ab-bg { width: 136px; height: 74px; border-radius: 37px; }
+  .gb-btn-a { width: 58px; height: 58px; font-size: 19px; }
+  .gb-btn-b { width: 48px; height: 48px; font-size: 16px; }
+  .gb-sys-btn { width: 58px; height: 12px; }
+  .gb-sys-label { font-size: 9px; }
+  .gb-controls { padding: 0 16px; margin-bottom: 28px; }
+  .gb-sys { gap: 40px; margin-bottom: 10px; }
+  .gb-speaker { bottom: 28px; right: 28px; gap: 5px; }
+  .gb-speaker-line { width: 34px; height: 3px; }
+  .gb-guide { width: 500px; }
+}
+
+@media (max-height: 580px) { .gb-guide { display: none; } }
+@media (hover: none) and (pointer: coarse) { .gb-guide { display: none; } }
