@@ -39,8 +39,7 @@ html, body {
    ======================================== */
 .gba-page {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0; left: 0; right: 0; bottom: 0;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -54,7 +53,7 @@ html, body {
    GAME BOY BODY — Classic leaf shape, YELLOW
    ======================================== */
 .gb-body {
-  width: min(92vw, 400px);
+  width: min(72vw, 400px);
   background: linear-gradient(160deg, #e8c820, #d8b818, #c8a810, #dcc020);
   border-radius: 14px 14px 14px 55px;
   padding: 14px 14px 62px 14px;
@@ -339,7 +338,7 @@ html, body {
    KEYBOARD GUIDE
    ======================================== */
 .gb-guide {
-  width: min(92vw, 400px);
+  width: min(72vw, 400px);
   margin-top: 12px;
   display: flex;
   flex-direction: column;
