@@ -30,7 +30,7 @@ const PIECE_COLORS = [
   '#cc3355', // Z - red
 ];
 
-const PIECE_NAMES = ['I', 'O', 'T', 'L', 'J', 'S', 'Z'];
+// const PIECE_NAMES = ['I', 'O', 'T', 'L', 'J', 'S', 'Z'];
 
 const LINE_SCORES = [0, 100, 300, 500, 800];
 
@@ -111,9 +111,9 @@ export default function TetrisGame({ onBack }: TetrisGameProps) {
   const lastDropRef = useRef<number>(0);
 
   const [gameState, setGameState] = useState<'ready' | 'playing' | 'paused' | 'over'>('ready');
-  const [score, setScore] = useState(0);
-  const [level, setLevel] = useState(1);
-  const [lines, setLines] = useState(0);
+  const [, setScore] = useState(0);
+  const [, setLevel] = useState(1);
+  const [, setLines] = useState(0);
 
   // Mutable game state via refs
   const gridRef = useRef<Grid>(createGrid());

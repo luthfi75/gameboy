@@ -40,7 +40,7 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
   const lastMoveRef = useRef<number>(0);
 
   const [gameState, setGameState] = useState<'ready' | 'playing' | 'over'>('ready');
-  const [score, setScore] = useState(0);
+  const [, setScore] = useState(0);
 
   // Mutable game state via refs
   const snakeRef = useRef<Point[]>([{ x: 10, y: 9 }, { x: 9, y: 9 }, { x: 8, y: 9 }]);
