@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { ChiptunePlayer } from '../lib/chiptune';
 
 interface SnakeGameProps {
   onBack: () => void;
+  chiptune?: ChiptunePlayer | null;
 }
 
 // ── Constants ──────────────────────────────────────────────
@@ -33,7 +35,7 @@ function lightenColor(hex: string, amount: number): string {
 }
 
 // ── Component ──────────────────────────────────────────────
-export default function SnakeGame({ onBack }: SnakeGameProps) {
+export default function SnakeGame({ onBack, chiptune }: SnakeGameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
@@ -89,8 +91,9 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
     setScore(0);
     placeFood();
     setGameState('playing');
+    chiptune?.playStartSound();
     lastMoveRef.current = performance.now();
-  }, [placeFood]);
+  }, [placeFood, chiptune]);
 
   const moveSnake = useCallback(() => {
     const snake = snakeRef.current;
@@ -123,6 +126,7 @@ export default function SnakeGame({ onBack }: SnakeGameProps) {
           try { localStorage.setItem('snake_hi_score', String(hiScoreRef.current)); } catch { /* ignore */ }
         }
         setGameState('over');
+        chiptune?.playGameOverSound();
         return;
       }
     }

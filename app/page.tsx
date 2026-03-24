@@ -1,16 +1,76 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import GameMenu from './components/GameMenu';
 import TetrisGame from './components/TetrisGame';
 import SnakeGame from './components/SnakeGame';
 import SpaceWarGame from './components/SpaceWarGame';
+import { ChiptunePlayer } from './lib/chiptune';
 
 type Screen = 'menu' | 'tetris' | 'snake' | 'spacewar';
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>('menu');
   const [showExitDialog, setShowExitDialog] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const chiptuneRef = useRef<ChiptunePlayer | null>(null);
+  const userInteractedRef = useRef(false);
+
+  // Initialize ChiptunePlayer
+  useEffect(() => {
+    chiptuneRef.current = new ChiptunePlayer();
+    return () => {
+      chiptuneRef.current?.destroy();
+    };
+  }, []);
+
+  // Start music on first user interaction (required by browsers)
+  useEffect(() => {
+    const startOnInteraction = () => {
+      if (!userInteractedRef.current) {
+        userInteractedRef.current = true;
+        if (chiptuneRef.current && !muted) {
+          if (screen === 'menu') chiptuneRef.current.playMenuMusic();
+          else if (screen === 'tetris') chiptuneRef.current.playTetrisMusic();
+          else if (screen === 'snake') chiptuneRef.current.playSnakeMusic();
+          else if (screen === 'spacewar') chiptuneRef.current.playSpaceWarMusic();
+        }
+      }
+    };
+    window.addEventListener('keydown', startOnInteraction, { once: true });
+    window.addEventListener('pointerdown', startOnInteraction, { once: true });
+    return () => {
+      window.removeEventListener('keydown', startOnInteraction);
+      window.removeEventListener('pointerdown', startOnInteraction);
+    };
+  }, [screen, muted]);
+
+  // Switch music when screen changes (not for exit dialog)
+  useEffect(() => {
+    if (!chiptuneRef.current || !userInteractedRef.current || muted) return;
+    switch (screen) {
+      case 'menu': chiptuneRef.current.playMenuMusic(); break;
+      case 'tetris': chiptuneRef.current.playTetrisMusic(); break;
+      case 'snake': chiptuneRef.current.playSnakeMusic(); break;
+      case 'spacewar': chiptuneRef.current.playSpaceWarMusic(); break;
+    }
+  }, [screen, muted]);
+
+  const toggleMute = useCallback(() => {
+    if (!chiptuneRef.current) return;
+    const nowMuted = chiptuneRef.current.toggleMute();
+    setMuted(nowMuted);
+    if (nowMuted) {
+      chiptuneRef.current.stop();
+    } else if (userInteractedRef.current) {
+      switch (screen) {
+        case 'menu': chiptuneRef.current.playMenuMusic(); break;
+        case 'tetris': chiptuneRef.current.playTetrisMusic(); break;
+        case 'snake': chiptuneRef.current.playSnakeMusic(); break;
+        case 'spacewar': chiptuneRef.current.playSpaceWarMusic(); break;
+      }
+    }
+  }, [screen]);
 
   const handleRequestBack = useCallback(() => {
     setShowExitDialog(true);
@@ -43,9 +103,35 @@ export default function Home() {
       {screen === 'menu' && (
         <GameMenu onSelectGame={(game) => setScreen(game as Screen)} />
       )}
-      {screen === 'tetris' && <TetrisGame onBack={handleRequestBack} />}
-      {screen === 'snake' && <SnakeGame onBack={handleRequestBack} />}
-      {screen === 'spacewar' && <SpaceWarGame onBack={handleRequestBack} />}
+      {screen === 'tetris' && <TetrisGame onBack={handleRequestBack} chiptune={chiptuneRef.current} />}
+      {screen === 'snake' && <SnakeGame onBack={handleRequestBack} chiptune={chiptuneRef.current} />}
+      {screen === 'spacewar' && <SpaceWarGame onBack={handleRequestBack} chiptune={chiptuneRef.current} />}
+
+      {/* Mute toggle */}
+      <div
+        onClick={toggleMute}
+        style={{
+          position: 'absolute',
+          top: 4,
+          right: 4,
+          width: 18,
+          height: 18,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          zIndex: 200,
+          fontSize: 10,
+          color: muted ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.6)',
+          fontFamily: "'W95FA', monospace",
+          userSelect: 'none',
+          borderRadius: 2,
+          background: 'rgba(0,0,0,0.3)',
+        }}
+        title={muted ? 'Unmute' : 'Mute'}
+      >
+        {muted ? '\u266A' : '\u266B'}
+      </div>
 
       {/* Quit dialog — INSIDE the screen */}
       {showExitDialog && (

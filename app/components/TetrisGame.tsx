@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { ChiptunePlayer } from '../lib/chiptune';
 
 interface TetrisGameProps {
   onBack: () => void;
+  chiptune?: ChiptunePlayer | null;
 }
 
 // ── Constants ──────────────────────────────────────────────
@@ -104,7 +106,7 @@ function lightenColor(hex: string, amount: number): string {
 }
 
 // ── Component ──────────────────────────────────────────────
-export default function TetrisGame({ onBack }: TetrisGameProps) {
+export default function TetrisGame({ onBack, chiptune }: TetrisGameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
@@ -145,6 +147,7 @@ export default function TetrisGame({ onBack }: TetrisGameProps) {
     pieceRef.current = { idx, shape, x: px, y: -1 };
     if (collides(gridRef.current, shape, px, 0)) {
       setGameState('over');
+      chiptune?.playGameOverSound();
     }
   }, [nextFromBag]);
 
@@ -255,8 +258,9 @@ export default function TetrisGame({ onBack }: TetrisGameProps) {
     setLevel(1);
     spawnPiece();
     setGameState('playing');
+    chiptune?.playStartSound();
     lastDropRef.current = performance.now();
-  }, [spawnPiece, nextFromBag]);
+  }, [spawnPiece, nextFromBag, chiptune]);
 
   // ── Drawing ────────────────────────────────────────────
   const draw = useCallback((timestamp: number) => {
