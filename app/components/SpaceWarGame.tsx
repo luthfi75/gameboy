@@ -314,7 +314,7 @@ export default function SpaceWarGame({ onBack }: SpaceWarGameProps) {
   const [gameState, setGameState] = useState<'ready' | 'playing' | 'waveAnnounce' | 'over'>('ready');
   const [displayScore, setDisplayScore] = useState(0);
   const [displayWave, setDisplayWave] = useState(1);
-  const [displayLives, setDisplayLives] = useState(3);
+  const [, setDisplayLives] = useState(3);
 
   // Game state refs
   const stateRef = useRef({
@@ -343,7 +343,6 @@ export default function SpaceWarGame({ onBack }: SpaceWarGameProps) {
   const particlesRef = useRef<Particle[]>([]);
   const powerUpsRef = useRef<PowerUp[]>([]);
   const keysRef = useRef(new Set<string>());
-  const animRef = useRef(0);
   const touchRef = useRef<{ x: number; y: number } | null>(null);
 
   // Init stars
