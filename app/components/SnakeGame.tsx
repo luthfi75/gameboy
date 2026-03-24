@@ -151,7 +151,7 @@ export default function SnakeGame({ onBack, chiptune }: SnakeGameProps) {
     } else {
       snake.pop();
     }
-  }, [placeFood]);
+  }, [placeFood, chiptune]);
 
   // ── Drawing ────────────────────────────────────────────
   const draw = useCallback((timestamp: number) => {

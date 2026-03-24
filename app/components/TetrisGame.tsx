@@ -149,7 +149,7 @@ export default function TetrisGame({ onBack, chiptune }: TetrisGameProps) {
       setGameState('over');
       chiptune?.playGameOverSound();
     }
-  }, [nextFromBag]);
+  }, [nextFromBag, chiptune]);
 
   const lockPiece = useCallback(() => {
     const { idx, shape, x, y } = pieceRef.current;
